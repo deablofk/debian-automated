@@ -53,4 +53,4 @@
         src: "{{ (lazygit_response.json.assets | selectattr('name', 'search', 'Linux_x86_64.tar.gz') | first).browser_download_url }}"
         dest: "{{ ansible_user_dir }}/.local/bin/"
         remote_src: yes
-        when: lazygit_check.rc != 0
+      when: lazygit_check.rc != 0
