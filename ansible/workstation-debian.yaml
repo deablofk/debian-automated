@@ -1,0 +1,18 @@
+- name: "Workstation Debian Setup"
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Configure User Environment
+      import_tasks: workstation/tasks/configure_env.yaml
+    - name: Install Needed Repositories
+      import_tasks: workstation/tasks/install_repositories.yaml
+    - name: Install Default Applications
+      import_tasks: workstation/tasks/install_applications.yaml
+    - name: Install SDKMAN Java Tools
+      import_tasks: workstation/tasks/sdkman_javatools.yaml
+    - name: Install Vesktop (Discord)
+      import_tasks: workstation/tasks/install_vesktop.yaml
+    - name: Install Terminal Utilities Programs
+      import_tasks: workstation/tasks/terminal_utilities.yaml
+    - name: Clone Personal Dotfiles
+      import_tasks: workstation/tasks/clone_dotfiles.yaml

@@ -8,6 +8,6 @@ Automatic install debian with pre-configured settings and post-install with ansi
 ```bash
 git clone https://github.com/deablofk/debian-automated
 cd debian-automated
-ansible ansible/workstation-debian.yaml --ask-become-pass # you can change the yaml by another present in ansible folder
+ansible-playbook ansible/workstation-debian.yaml --ask-become-pass # you can change the yaml by another present in ansible folder
 ```
 
