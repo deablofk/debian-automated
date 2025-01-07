@@ -1,0 +1,24 @@
+- name: Install Default Applications
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: false
+  loop:
+    - curl
+    - zip
+    - unzip
+    - vim
+    - git
+    - tmux
+    - docker-ce
+    - docker-ce-cli
+    - wmenu
+    - cargo
+    - alacritty
+    - qutebrowser
+    - sway
+    - intellij-idea-ultimate
+    - spotify-client
+    # todo:
+    # - lazygit

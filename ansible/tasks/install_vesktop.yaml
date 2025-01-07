@@ -1,0 +1,37 @@
+- name: Vesktop Installation
+  block:
+    - name: Verify if Vesktop is already installed
+      ansible.builtin.stat:
+        path: "$HOME/.local/bin/vesktop-latest.AppImage"
+      register: vesktop_stat
+    - name: Get Vesktop Last Release
+      uri:
+        url: "https://api.github.com/repos/Vencord/Vesktop/releases/latest"
+        method: GET
+        return_content: yes
+      register: vesktop_latest_release
+      when: not vesktop_stat.stat.exists
+      changed_when: false
+    - name: Extract Vesktop Download URL
+      set_fact:
+        vesktop_download_url: "{{ vesktop_latest_release.json.assets | selectattr('name', 'search', '.*AppImage$') | selectattr('name', 'search', '^((?!arm64).)*$') | map(attribute='browser_download_url') | first }}"
+      when: not vesktop_stat.stat.exists
+    - name: Download the latest .AppImage asset
+      get_url:
+        url: "{{ vesktop_download_url }}"
+        dest: "/tmp/vesktop-latest.AppImage"
+      register: vesktop_download_result
+      when: not vesktop_stat.stat.exists
+    - name: Make the .AppImage executable
+      file:
+        path: "/tmp/vesktop-latest.AppImage"
+        mode: '0755'
+      when: vesktop_download_result.changed
+    - name: Move the .AppImage to the desired directory
+      command: mv /tmp/vesktop-latest.AppImage ~/.local/bin/
+      when: vesktop_download_result.changed
+    - name: Clean up downloaded .AppImage
+      file:
+        path: "/tmp/vesktop-latest.AppImage"
+        state: absent
+      when: vesktop_download_result.changed

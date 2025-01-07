@@ -1,0 +1,23 @@
+- name: Configure Environment
+  block:
+    - name: Ensure docker group exists
+      become: true
+      group:
+        name: docker
+        state: present
+    - name: Add Docker Group
+      become: true
+      user:
+        name: "{{ ansible_user_id }}"
+        groups: docker
+        append: yes
+    - name: Ensure .local/bin exists in the user home folder
+      ansible.builtin.file:
+        path: "{{ ansible_user_dir }}/.local/bin"
+        state: directory
+        mode: '0755'
+    - name: Ensure .config/ exists in the user home folder
+      ansible.builtin.file:
+        path: "{{ ansible_user_dir }}/.config"
+        state: directory
+        mode: '0755'

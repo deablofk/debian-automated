@@ -1,0 +1,16 @@
+- name: "Workstation Setup"
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Configure User Environment
+      import_tasks: tasks/configure_env.yaml
+    - name: Install Needed Repositories
+      import_tasks: tasks/install_repositories.yaml
+    - name: Install Default Applications
+      import_tasks: tasks/install_applications.yaml
+    - name: Install SDKMAN Java Tools
+      import_tasks: tasks/sdkman_javatools.yaml
+    - name: Install Vesktop (Discord)
+      import_tasks: tasks/install_vesktop.yaml
+    - name: Neovim Installation and Configuration
+      import_tasks: tasks/neovim.yaml

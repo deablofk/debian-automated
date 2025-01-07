@@ -1,0 +1,56 @@
+- name: Download And Configure Neovim
+  block:
+    - name: Check if neovim is installed
+      command: which nvim
+      ignore_errors: yes
+      failed_when: false
+      changed_when: false
+      register: nvim_check
+    - name: Get Last Neovim Release
+      uri:
+        url: "https://api.github.com/repos/neovim/neovim/releases/latest"
+        method: GET
+        return_content: yes
+      register: nvim_response
+      when: nvim_check.rc != 0
+    - name: Download and Extract Neovim Tarball
+      become: true
+      ansible.builtin.unarchive:
+        src: "{{ nvim_response.json.assets[0].browser_download_url }}"
+        dest: /opt/
+        remote_src: yes
+      when: nvim_check.rc != 0
+    - name: Create neovim symlink with Local Bin
+      become: true
+      ansible.builtin.file:
+        src: /opt/nvim-linux64/bin/nvim
+        dest: "{{ ansible_user_dir }}/.local/bin/nvim"
+        state: link
+      when: nvim_check.rc != 0
+    - name: Clone Neovim Dotfiles into config folder
+      ansible.builtin.git:
+        repo: 'https://github.com/deablofk/deablo-nvim.git'
+        dest: "{{ ansible_user_dir }}/.config/nvim"
+        update: true
+- name: Download and Install LazyGit
+  block:
+    - name: Check if lazygit is installed
+      command: which lazygit
+      ignore_errors: yes
+      failed_when: false
+      changed_when: false
+      register: lazygit_check
+    - name: Get Last LazyGit Release
+      uri:
+        url: "https://api.github.com/repos/jesseduffield/lazygit/releases/latest"
+        method: GET
+        return_content: yes
+      register: lazygit_response
+      when: lazygit_check.rc != 0
+    - name: Download and Extract Lazygit Tarball
+      become: true
+      ansible.builtin.unarchive:
+        src: "{{ (lazygit_response.json.assets | selectattr('name', 'search', 'Linux_x86_64.tar.gz') | first).browser_download_url }}"
+        dest: "{{ ansible_user_dir }}/.local/bin/"
+        remote_src: yes
+        when: lazygit_check.rc != 0

@@ -1,0 +1,55 @@
+- name: Install SDKMAN TOOLS
+  block:
+    - name: Verify if SDKMAN is installed
+      ansible.builtin.stat:
+        path: "$HOME/.sdkman/bin/sdkman-init.sh"
+      register: sdkman
+    - name: Install SDKMAN!
+      ansible.builtin.shell: |
+        set -o pipefail
+        curl -s "https://get.sdkman.io" | bash
+      when: not sdkman.stat.exists
+      args:
+        creates: ~/.sdkman/bin/sdkman-init.sh
+    - name: Install current LTS Java
+      ansible.builtin.shell: |
+        export SDKMAN_DIR="$HOME/.sdkman"
+        . "$SDKMAN_DIR/bin/sdkman-init.sh"
+        sdk install java
+      args:
+        executable: /bin/bash
+    - name: Install Java 23 GraalVM
+      ansible.builtin.shell: |
+        export SDKMAN_DIR="$HOME/.sdkman"
+        . "$SDKMAN_DIR/bin/sdkman-init.sh"
+        sdk install java 23.0.1-graalce
+      args:
+        executable: /usr/bin/bash
+    - name: Install Latest Gradle
+      ansible.builtin.shell: |
+        export SDKMAN_DIR="$HOME/.sdkman"
+        . "$SDKMAN_DIR/bin/sdkman-init.sh"
+        sdk install gradle
+      args:
+        executable: /usr/bin/bash
+    - name: Install Latest Maven
+      ansible.builtin.shell: |
+        export SDKMAN_DIR="$HOME/.sdkman"
+        . "$SDKMAN_DIR/bin/sdkman-init.sh"
+        sdk install maven
+      args:
+        executable: /usr/bin/bash
+    - name: Install Latest Quarkus CLI
+      ansible.builtin.shell: |
+        export SDKMAN_DIR="$HOME/.sdkman"
+        . "$SDKMAN_DIR/bin/sdkman-init.sh"
+        sdk install quarkus
+      args:
+        executable: /usr/bin/bash
+    - name: Install Latest SpringBoot CLI
+      ansible.builtin.shell: |
+        export SDKMAN_DIR="$HOME/.sdkman"
+        . "$SDKMAN_DIR/bin/sdkman-init.sh"
+        sdk install springboot
+      args:
+        executable: /usr/bin/bash

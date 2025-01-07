@@ -1,0 +1,30 @@
+- name: Install Needed Repositories
+  become: true
+  block:
+    - name: Add Jetbrains Repository Key
+      ansible.builtin.get_url:
+        url: https://s3.eu-central-1.amazonaws.com/jetbrains-ppa/0xA6E8698A.pub.asc
+        dest: /usr/share/keyrings/jetbrains-ppa-archive-keyring.asc
+    - name: Add Jetbrains Repository Source
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/usr/share/keyrings/jetbrains-ppa-archive-keyring.asc] http://jetbrains-ppa.s3-website.eu-central-1.amazonaws.com any main"
+        state: present
+        filename: jetbrains-ppa
+    - name: Add Spotify Repository Key
+      ansible.builtin.get_url:
+        url: https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg
+        dest: /usr/share/keyrings/spotify.asc
+    - name: Add Spotify Repository Source
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/usr/share/keyrings/spotify.asc] http://repository.spotify.com stable non-free"
+        state: present
+        filename: spotify-ppa
+    - name: Add Docker Repository Key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/keyrings/docker.asc
+    - name: Add Docker Repository Source
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable"
+        state: present
+        filename: docker-ppa
