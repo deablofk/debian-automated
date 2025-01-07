@@ -1,4 +1,4 @@
-- name: "Workstation Setup"
+- name: "Workstation Debian Setup"
   hosts: localhost
   connection: local
   tasks:
