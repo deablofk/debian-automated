@@ -27,11 +27,6 @@
         dest: "{{ ansible_user_dir }}/.local/bin/nvim"
         state: link
       when: nvim_check.rc != 0
-    - name: Clone Neovim Dotfiles into config folder
-      ansible.builtin.git:
-        repo: 'https://github.com/deablofk/deablo-nvim.git'
-        dest: "{{ ansible_user_dir }}/.config/nvim"
-        update: true
 - name: Download and Install LazyGit
   block:
     - name: Check if lazygit is installed

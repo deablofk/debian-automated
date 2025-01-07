@@ -1,0 +1,14 @@
+- name: Clone DotFiles
+  ansible.builtin.git:
+    repo: 'https://github.com/deablofk/mydotfiles.git'
+    dest: "{{ ansible_user_dir }}/mydotfiles"
+    update: true
+- name: Install DotFiles
+  ansible.builtin.shell:
+    cmd: ./install.sh
+    chdir: "{{ ansible_user_dir }}/mydotfiles"
+- name: Clone Neovim Dotfiles into config folder
+  ansible.builtin.git:
+    repo: 'https://github.com/deablofk/deablo-nvim.git'
+    dest: "{{ ansible_user_dir }}/.config/nvim"
+    update: true

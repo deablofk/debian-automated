@@ -12,5 +12,7 @@
       import_tasks: tasks/sdkman_javatools.yaml
     - name: Install Vesktop (Discord)
       import_tasks: tasks/install_vesktop.yaml
-    - name: Neovim Installation and Configuration
-      import_tasks: tasks/neovim.yaml
+    - name: Install Terminal Utilities Programs
+      import_tasks: tasks/terminal_utilities.yaml
+    - name: Clone Personal Dotfiles
+      import_tasks: tasks/clone_dotfiles.yaml
