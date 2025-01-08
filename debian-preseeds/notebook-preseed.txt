@@ -6,7 +6,7 @@ d-i debian-installer/locale string en_US
 d-i localechooser/supported-locales multiselect en_US.UTF-8, pt_BR.UTF-8
 
 # KEYBOARD
-d-i keyboard-configuration/xkb-keymap select br
+d-i keyboard-configuration/xkb-keymap select dvorak
 
 ### NETWORK CONFIGURATION
 d-i netcfg/choose_interface select auto
@@ -134,7 +134,7 @@ d-i apt-setup/security_host string security.debian.org
 tasksel tasksel/first multiselect standard
 
 # Individual additional packages to install
-d-i pkgsel/include string openssh-server build-essential sudo ansible git vim
+d-i pkgsel/include string openssh-server build-essential sudo ansible git vim network-manager console-data
 
 # Whether to upgrade packages after debootstrap.
 d-i pkgsel/upgrade select full-upgrade
