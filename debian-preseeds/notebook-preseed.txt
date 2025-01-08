@@ -47,7 +47,7 @@ d-i time/zone string America/Cuiaba
 d-i clock-setup/ntp boolean true
 
 ### PARTITIONING
-d-i partman-auto/disk string /dev/vda
+d-i partman-auto/disk string /dev/nvme0n1
 d-i partman-auto/method string regular
 d-i partman-auto-lvm/guided_size string max
 
@@ -64,13 +64,13 @@ d-i partman-lvm/confirm_nooverwrite boolean true
 # PARTITION RECIPE
 d-i partman-auto/expert_recipe string                           \
      myboot ::                                                  \
-                512 512 512 free                               \
+                512 512 512 free                                \
                     $iflabel{ gpt }                             \
                     $reusemethod{ }                             \
                     method{ efi }                               \
                     format{ }                                   \
                     .                                           \
-                200000 20000 20000 btrfs                         \
+                40000 40000 40000 btrfs                         \
                     $lvmok{ }                                   \
                     method{ format }                            \
                     format{ }                                   \
@@ -78,7 +78,7 @@ d-i partman-auto/expert_recipe string                           \
                     filesystem{ btrfs }                         \
                     mountpoint{ / }                             \
                     .                                           \
-                 730000 730000 730000 btrfs                         \
+                 200000 200000 200000 btrfs                     \
                     $lvmok{ }                                   \
                     method{ format }                            \
                     format{ }                                   \
