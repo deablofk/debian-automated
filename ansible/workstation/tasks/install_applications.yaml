@@ -28,6 +28,7 @@
     - console-data
     - fzf
     - fastfetch
+    - node
 - name: Install Default Applications (With recommendeds)
   become: true
   ansible.builtin.apt:
