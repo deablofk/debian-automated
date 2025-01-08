@@ -16,11 +16,14 @@
     - wmenu
     - cargo
     - alacritty
-    - qutebrowser
+    - qutebrowser-qtwebengine
     - sway
     - intellij-idea-ultimate
     - spotify-client
     - zsh
+    - zsh-syntax-highlighting
+    - zsh-autosuggestions
     - pulsemixer
-    - pipewire
-    - pipewire-pulse
+    - pipewire-audio
+    - wireplumber
+    - console-data
