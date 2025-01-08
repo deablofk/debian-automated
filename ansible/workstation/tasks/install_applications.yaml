@@ -27,3 +27,4 @@
     - pipewire-audio
     - wireplumber
     - console-data
+    - fzf

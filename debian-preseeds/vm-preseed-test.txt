@@ -1,0 +1,147 @@
+#_preseed_V1
+#### Contents of the preconfiguration file (for bookworm)
+### LOCALIZATION
+# LANGUAGE, COUNTRY AND LOCALE
+d-i debian-installer/locale string en_US
+d-i localechooser/supported-locales multiselect en_US.UTF-8, pt_BR.UTF-8
+
+# KEYBOARD
+d-i keyboard-configuration/xkb-keymap select br
+
+### NETWORK CONFIGURATION
+d-i netcfg/choose_interface select auto
+d-i netcfg/get_hostname string unassigned-hostname
+d-i netcfg/get_domain string example.com
+
+# DISABLE THAT ANNOYING WEP KEY DIALOG.
+d-i netcfg/wireless_wep string
+
+### MIRROR SETTINGS
+# Mirror protocol:
+d-i mirror/protocol string http
+d-i mirror/country string manual
+d-i mirror/http/hostname string debian.c3sl.ufpr.br	
+d-i mirror/http/directory string /debian
+d-i mirror/http/proxy string
+
+# SUITE TO INSTALL.
+d-i mirror/suite string unstable
+d-i mirror/udeb/suite string unstable
+
+### ACCOUNT SETUP
+d-i passwd/root-login boolean true
+d-i passwd/make-user boolean true
+
+# ROOT PASSWORD, EITHER IN CLEAR TEXT
+d-i passwd/root-password-crypted password $6$28gDXoXurNdQ6eGJ$dN3CyT1rhoSRMXJ6zOUb5AzXKFgmYRsVwpmGqtC9NWD0nAh6Fm.IbbIRmBVc97IyotVdZBkCc/gcCVJa1J9V40
+
+# To create a normal user account.
+d-i passwd/user-fullname string cwby
+d-i passwd/username string cwby
+d-i passwd/user-password-crypted password $6$28gDXoXurNdQ6eGJ$dN3CyT1rhoSRMXJ6zOUb5AzXKFgmYRsVwpmGqtC9NWD0nAh6Fm.IbbIRmBVc97IyotVdZBkCc/gcCVJa1J9V40
+d-i passwd/user-default-groups string audio cdrom video sudo
+
+### CLOCK AND TIME ZONE SETUP
+d-i clock-setup/utc boolean true
+d-i time/zone string America/Cuiaba
+d-i clock-setup/ntp boolean true
+
+### PARTITIONING
+d-i partman-auto/disk string /dev/vda
+d-i partman-auto/method string regular
+d-i partman-auto-lvm/guided_size string max
+
+# If one of the disks that are going to be automatically partitioned
+# contains an old LVM configuration, the user will normally receive a
+# warning. This can be preseeded away...
+d-i partman-lvm/device_remove_lvm boolean true
+# The same applies to pre-existing software RAID array:
+d-i partman-md/device_remove_md boolean true
+# And the same goes for the confirmation to write the lvm partitions.
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+
+# PARTITION RECIPE
+d-i partman-auto/expert_recipe string                           \
+     myboot ::                                                  \
+                512 512 512 free                               \
+                    $iflabel{ gpt }                             \
+                    $reusemethod{ }                             \
+                    method{ efi }                               \
+                    format{ }                                   \
+                    .                                           \
+                1 1 -1 btrfs                         \
+                    $lvmok{ }                                   \
+                    method{ format }                            \
+                    format{ }                                   \
+                    use_filesystem{ }                           \
+                    filesystem{ btrfs }                         \
+                    mountpoint{ / }                             \
+                    .
+
+d-i partman-auto/choose_recipe select myboot
+d-i partman-basicfilesystems/no_swap boolean false
+d-i partman-efi/non_efi_system boolean true
+
+# This makes partman automatically partition without confirmation, provided
+# that you told it what to do using one of the methods above.
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+# This makes partman automatically partition without confirmation.
+d-i partman-md/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+### Base system installation
+# Configure APT to not install recommended packages by default. Use of this
+# option can result in an incomplete system and should only be used by very
+# experienced users.
+#d-i base-installer/install-recommends boolean false
+
+# The kernel image (meta) package to be installed; "none" can be used if no
+# kernel is to be installed.
+#d-i base-installer/kernel/image string linux-image-686
+
+### Apt setup
+# Choose, if you want to scan additional installation media
+d-i apt-setup/cdrom/set-first boolean false
+
+# You can choose to install non-free firmware.
+d-i apt-setup/non-free-firmware boolean true
+
+# You can choose to install non-free and contrib software.
+d-i apt-setup/non-free boolean true
+d-i apt-setup/contrib boolean true
+
+# Select which update services to use; 
+d-i apt-setup/services-select multiselect security, updates
+d-i apt-setup/security_host string security.debian.org
+
+### Package selection
+tasksel tasksel/first multiselect standard
+
+# Individual additional packages to install
+d-i pkgsel/include string openssh-server build-essential sudo ansible git vim network-manager console-data
+
+# Whether to upgrade packages after debootstrap.
+d-i pkgsel/upgrade select full-upgrade
+
+# TELEMETRY DISABLE
+popularity-contest popularity-contest/participate boolean false
+
+### Boot loader installation
+# Grub is the boot loader (for x86).
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
+
+# Avoid that last message about the install being complete.
+d-i finish-install/reboot_in_progress note
+
+#### Advanced options
+### Running custom commands during the installation
+d-i preseed/late_command string apt-install zsh; in-target chsh -s /bin/zsh cwby
