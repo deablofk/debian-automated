@@ -1,0 +1,24 @@
+- name: Check if IosevkaNF is installed
+  ansible.builtin.stat:
+    path: "{{ ansible_user_dir }}/.local/share/fonts/iosevkanf"
+  register: iosevkanf_status
+- name: Create .local/share/fonts/iosevkanf if not exist
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.local/share/fonts/iosevkanf/"
+    state: directory
+    mode: '0755'
+  when: not iosevkanf_status.stat.exists
+- name: Get Last IosevkaNF Release
+  uri:
+    url: "https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest"
+    method: GET
+    return_content: yes
+  register: iosevkanf_response
+  when: not iosevkanf_status.stat.exists
+- name: Download and Extract IosevkaNF Tarball
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ (iosevkanf_response.json.assets | selectattr('name', 'search', 'Iosevka.tar.xz') | first).browser_download_url }}"
+    dest: "{{ ansible_user_dir }}/.local/share/fonts/iosevkanf/"
+    remote_src: yes
+  when: not iosevkanf_status.stat.exists
