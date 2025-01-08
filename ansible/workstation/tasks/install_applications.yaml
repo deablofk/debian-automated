@@ -1,4 +1,4 @@
-- name: Install Default Applications
+- name: Install Default Applications (With no-recommendeds)
   become: true
   ansible.builtin.apt:
     name: "{{ item }}"
@@ -16,7 +16,6 @@
     - wmenu
     - cargo
     - alacritty
-    - qutebrowser-qtwebengine
     - sway
     - intellij-idea-ultimate
     - spotify-client
@@ -28,3 +27,12 @@
     - wireplumber
     - console-data
     - fzf
+    - fastfetch
+- name: Install Default Applications (With recommendeds)
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: true
+  loop:
+    - qutebrowser-qtwebengine
