@@ -44,6 +44,7 @@
     - zathura
     - mpv
     - yt-dlp
+    - ueberzugpp # requires justkidding repository
 - name: Install Default Applications (With recommendeds)
   become: true
   ansible.builtin.apt:

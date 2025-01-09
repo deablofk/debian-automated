@@ -28,3 +28,12 @@
         repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable"
         state: present
         filename: docker-ppa
+    - name: Ueberzugpp (JustKidding Repository key)
+      ansible.builtin.get_url:
+        url: https://download.opensuse.org/repositories/home:justkidding/Debian_Unstable/Release.key
+        dest: /etc/apt/trusted.gpg.d/home_justkidding.asc
+    - name: Add Docker Repository Source
+      ansible.builtin.apt_repository:
+        repo: "deb http://download.opensuse.org/repositories/home:/justkidding/Debian_Unstable/ /"
+        state: present
+        filename: justkidding-ueberzug-ppa
