@@ -48,6 +48,7 @@
     - ueberzugpp # requires justkidding repository
     - btop
     - psmisc # utilities like: killall
+    - at # simple alternative to crontab, used in sway config
 - name: Install Default Applications (With recommendeds)
   become: true
   ansible.builtin.apt:
