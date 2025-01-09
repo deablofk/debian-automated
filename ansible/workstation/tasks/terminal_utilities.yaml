@@ -49,3 +49,39 @@
         dest: "{{ ansible_user_dir }}/.local/bin/"
         remote_src: yes
       when: lazygit_check.rc != 0
+    - name: Download and Install Yazi File Manager
+      block:
+        - name: Check if Yazi is installed
+          command: which yazi 
+          ignore_errors: yes
+          failed_when: false
+          changed_when: false
+          register: yazi_check
+        - name: Get Last Yazi Release
+          uri:
+            url: "https://api.github.com/repos/sxyazi/yazi/releases/latest"
+            method: GET
+            return_content: yes
+          register: yazi_response
+          when: yazi_check.rc != 0
+        - name: Download and Extract Yazi Tarball
+          become: true
+          ansible.builtin.unarchive:
+            src: "{{ (yazi_response.json.assets | selectattr('name', 'search', 'yazi-x86_64-unknown-linux-gnu.zip') | first).browser_download_url }}"
+            dest: "/opt/"
+            remote_src: yes
+          when: yazi_check.rc != 0
+        - name: Create ya symlink with Local Bin
+          become: true
+          ansible.builtin.file:
+            src: /opt/yazi-x86_64-unknown-linux-gnu/ya
+            dest: "{{ ansible_user_dir }}/.local/bin/ya"
+            state: link
+          when: yazi_check.rc != 0
+        - name: Create Yazi symlink with Local Bin
+          become: true
+          ansible.builtin.file:
+            src: /opt/yazi-x86_64-unknown-linux-gnu/yazi
+            dest: "{{ ansible_user_dir }}/.local/bin/yazi"
+            state: link
+          when: yazi_check.rc != 0
