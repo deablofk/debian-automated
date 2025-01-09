@@ -32,6 +32,9 @@
     - node-npm
     - libfuse2t64 # required for some AppImages(including: Vesktop)
     - fuse3 # required for some AppImages(including: Vesktop)
+    - xwayland
+    - xdg-desktop-portal-wlr
+    - ntfs-3g
 - name: Install Default Applications (With recommendeds)
   become: true
   ansible.builtin.apt:
