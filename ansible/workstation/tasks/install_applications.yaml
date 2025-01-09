@@ -18,6 +18,7 @@
     - alacritty
     - sway
     - autotiling # sway autotiling (bspwm like split behavior)
+    - waybar # custom waybar for sway
     - intellij-idea-ultimate
     - spotify-client
     - zsh
@@ -45,6 +46,7 @@
     - mpv
     - yt-dlp
     - ueberzugpp # requires justkidding repository
+    - btop
 - name: Install Default Applications (With recommendeds)
   become: true
   ansible.builtin.apt:
