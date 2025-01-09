@@ -35,6 +35,11 @@
     - xwayland
     - xdg-desktop-portal-wlr
     - ntfs-3g
+    - obs-studio
+    - fonts-noto
+    - fonts-noto-cjk
+    - fonts-noto-cjk-extra
+    - fonts-noto-color-emoji
 - name: Install Default Applications (With recommendeds)
   become: true
   ansible.builtin.apt:
