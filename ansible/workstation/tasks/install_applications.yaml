@@ -40,6 +40,7 @@
     - fonts-noto-cjk
     - fonts-noto-cjk-extra
     - fonts-noto-color-emoji
+    - wl-clipboard
 - name: Install Default Applications (With recommendeds)
   become: true
   ansible.builtin.apt:
