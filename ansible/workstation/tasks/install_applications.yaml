@@ -49,6 +49,7 @@
     - btop
     - psmisc # utilities like: killall
     - at # simple alternative to crontab, used in sway config
+    - mesa-vulkan-drivers
 - name: Install Default Applications (With recommendeds)
   become: true
   ansible.builtin.apt:
