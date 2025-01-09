@@ -47,6 +47,7 @@
     - yt-dlp
     - ueberzugpp # requires justkidding repository
     - btop
+    - psmisc # utilities like: killall
 - name: Install Default Applications (With recommendeds)
   become: true
   ansible.builtin.apt:
