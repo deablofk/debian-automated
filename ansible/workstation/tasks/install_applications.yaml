@@ -54,4 +54,4 @@
     state: present
     install_recommends: true
   loop:
-    - qutebrowser-qtwebengine
+    - qutebrowser-qtwebengine # requires google-chrome for DRM content to work

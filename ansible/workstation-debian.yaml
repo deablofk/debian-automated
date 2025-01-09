@@ -18,3 +18,5 @@
       import_tasks: workstation/tasks/clone_dotfiles.yaml
     - name: Install Iosevka NerdFont
       import_tasks: workstation/tasks/install_iosevkanf.yaml
+    - name: Install Google Chrome
+      import_tasks: workstation/tasks/install_chrome.yaml

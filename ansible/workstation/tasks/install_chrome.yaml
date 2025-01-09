@@ -1,0 +1,17 @@
+- name: Check if Google Chrome is installed
+  command: which google-chrome
+  ignore_errors: yes
+  failed_when: false
+  changed_when: false
+  register: chrome
+- name: Download Google Chrome Deb
+  ansible.builtin.get_url:
+    url: "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+    dest: "/tmp/google-chrome-stable_current_amd64.deb"
+    mode: '0644'
+  when: chrome.rc != 0
+- name: Install the Google Chrome Deb File
+  become: true
+  ansible.builtin.command:
+    cmd: "sudo apt install /tmp/google-chrome-stable_current_amd64.deb"
+  when: chrome.rc != 0
