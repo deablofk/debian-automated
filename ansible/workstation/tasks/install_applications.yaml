@@ -17,6 +17,7 @@
     - cargo
     - alacritty
     - sway
+    - autotiling # sway autotiling (bspwm like split behavior)
     - intellij-idea-ultimate
     - spotify-client
     - zsh
