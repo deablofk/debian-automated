@@ -41,6 +41,9 @@
     - fonts-noto-cjk-extra
     - fonts-noto-color-emoji
     - wl-clipboard
+    - zathura
+    - mpv
+    - yt-dlp
 - name: Install Default Applications (With recommendeds)
   become: true
   ansible.builtin.apt:
