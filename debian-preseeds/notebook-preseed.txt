@@ -6,7 +6,9 @@ d-i debian-installer/locale string en_US
 d-i localechooser/supported-locales multiselect en_US.UTF-8, pt_BR.UTF-8
 
 # KEYBOARD
-d-i keyboard-configuration/xkb-keymap select dvorak
+d-i keyboard-configuration/xkb-keymap select br
+d-i keyboard-configuration/codelayout select br
+d-i keyboard-configuration/codevariant select dvorak
 
 ### NETWORK CONFIGURATION
 d-i netcfg/choose_interface select auto
