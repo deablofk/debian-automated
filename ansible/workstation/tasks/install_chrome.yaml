@@ -5,6 +5,7 @@
   changed_when: false
   register: chrome
 - name: Download Google Chrome Deb
+  become: true
   ansible.builtin.get_url:
     url: "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
     dest: "/tmp/google-chrome-stable_current_amd64.deb"
@@ -12,6 +13,6 @@
   when: chrome.rc != 0
 - name: Install the Google Chrome Deb File
   become: true
-  ansible.builtin.command:
-    cmd: "sudo apt install /tmp/google-chrome-stable_current_amd64.deb"
+  ansible.builtin.apt:
+    deb: "/tmp/google-chrome-stable_current_amd64.deb"
   when: chrome.rc != 0
