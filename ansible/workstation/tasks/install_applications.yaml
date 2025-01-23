@@ -58,3 +58,7 @@
     install_recommends: true
   loop:
     - qutebrowser-qtwebengine # requires google-chrome for DRM content to work
+- name: Enable wireplumber user service (because debian dont enable it automaticaly)
+  become: no
+  ansible.builtin.command:
+    cmd: systemctl --user enable --now wireplumber.service
