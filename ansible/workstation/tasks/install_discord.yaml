@@ -1,0 +1,20 @@
+- name: Discord Canary Installation
+  block:
+  - name: Check if Discord Canary is installed
+    command: which discord
+    ignore_errors: yes
+    failed_when: false
+    changed_when: false
+    register: discord
+  - name: Download Discord Canary Deb
+    become: true
+    ansible.builtin.get_url:
+      url: "https://canary.discord.com/api/download?platform=linux&format=deb"
+      dest: "/tmp/discord.deb"
+      mode: '0644'
+    when: discord.rc != 0
+  - name: Install the Discord Canary Deb File
+    become: true
+    ansible.builtin.apt:
+      deb: "/tmp/discord.deb"
+    when: discord.rc != 0
